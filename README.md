@@ -1,1 +1,5 @@
-# platform-game-1
+# Platform-Game-1
+
+I've always been curious to see whether I could create a platform game, and it is definitely questionable as to whether this qualifies.  It is, of course, a work in progress, but I'm adding this to GitHub now (May 18, 2022) because I finally figured out some of the basic aspects of getting a character to interact properly with the surroundings.  Physics is working properly - the player accelerates properly and stops when encountering physical objects.  (Of course, some physics properties are violated because of suspended blocks and double jumps, but these are by design.)
+
+As of this posting, the only working route is http://localhost:4000/test/ground1.  The port that I have set is 4000, of course.  The application is using Express and Handlebars to handle the controller and view portions of the MVC framework, but thankfully the project doesn't really require any true models at this time.
