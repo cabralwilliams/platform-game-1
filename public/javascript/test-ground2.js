@@ -5,189 +5,189 @@ let direction = 'right';
 let timer = 500000;
 
 const simpleSprite = document.querySelector("#simpleSprite");
+const bgGroup0 = document.querySelector("#bgGroup0");
+const bgGroup1 = document.querySelector("#bgGroup1");
 
 const groundProfiles = [
     {
-        type: "linear", x1: -200, y1: 0, x2: 175, y2: 0
+        type: "linear", x1: -10000, y1: 0, x2: -9500, y2: 0
     },
     {
-        type: "linear", x1: 175, y1: 0, x2: 250, y2: 50
+        type: "linear", x1: -9500, y1: 50, x2: -9000, y2: 150
     },
     {
-        type: "linear", x1: 250, y1: 50, x2: 350, y2: 50
+        type: "linear", x1: -9000, y1: 20, x2: -8500, y2: 20
     },
     {
-        type: "linear", x1: 350, y1: 50, x2: 500, y2: 0
-    },
-    // {
-    //     type: "sine", x1: 500, x2: 1000, aCo: 75, bCo: 0.05, phi: 0, kCo: 0
-    // }
-    {
-        type: "linear", x1: 500, y1: -60, x2: 600, y2: -60
+        type: "linear", x1: -8500, y1: 20, x2: -8000, y2: -40
     },
     {
-        type: "linear", x1: 600, y1: 0, x2: 900, y2: 50
+        type: "linear", x1: -8000, y1: -20, x2: -6000, y2: 60
     },
     {
-        type: "linear", x1: 900, y1: 50, x2: 1300, y2: 50
+        type: "linear", x1: -6000, y1: 60, x2: -4000, y2: 0
     },
     {
-        type: "linear", x1: 1300, y1: -300, x2: 1600, y2: -300
+        type: "linear", x1: -4000, y1: -20, x2: -2000, y2: 60
     },
     {
-        type: "linear", x1: 1600, y1: 0, x2: 2000, y2: 10
-    },
-    {
-        type: "linear", x1: 2000, y1: -500, x2: 3500, y2: -500
-    },
-    {
-        type: "linear", x1: 3500, y1: 10, x2: 4000, y2: 0
+        type: "linear", x1: -2000, y1: 60, x2: 0, y2: 0
     }
 ];
 
+// const ground5 = linearPath(-8000,-20,-6000,60,'#f39218');
+// const ground6 = linearPath(-6000,60,-4000,0,'#731C98');
+// const ground7 = linearPath(-4000,-20,-2000,60,'#f39218');
+// const ground8 = linearPath(-2000,60,0,0,'#731C98');
+
 const inlineObstacles = [
-    {
-        bounds: { 
-            upperLeft: { x: 300, y: 150 },
-            upperRight: {x: 500, y: 160 },
-            lowerRight: {x: 510, y: 70},
-            lowerLeft: {x: 310, y: 80 }
-        },
-        fill: "red",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: { 
-            upperLeft: { x: 200, y: 40 },
-            upperRight: {x: 260, y: 40 },
-            lowerRight: {x: 260, y: 20},
-            lowerLeft: {x: 200, y: 20 }
-        },
-        fill: "green",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: {
-            upperLeft: {x: 1325, y: -185},
-            upperRight: {x: 1425, y: -185},
-            lowerRight: {x: 1425, y: -250},
-            lowerLeft: {x: 1325, y: -250}
-        },
-        fill: "blue",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: {
-            upperLeft: {x: 1475, y: -100},
-            upperRight: {x: 1550, y: -100},
-            lowerRight: {x: 1550, y: -175},
-            lowerLeft: {x: 1475, y: -175}
-        },
-        fill: "purple",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: {
-            upperLeft: {x: 2010, y: -75},
-            upperRight: {x: 2090, y: -75},
-            lowerRight: {x: 2090, y: -150},
-            lowerLeft: {x: 2010, y: -150}
-        },
-        fill: "yellow",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: {
-            upperLeft: {x: 3410, y: -75},
-            upperRight: {x: 3490, y: -75},
-            lowerRight: {x: 3490, y: -150},
-            lowerLeft: {x: 3410, y: -150}
-        },
-        fill: "brown",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: {
-            upperLeft: {x: 2675, y: -420},
-            upperRight: {x: 2825, y: -420},
-            lowerRight: {x: 2825, y: -490},
-            lowerLeft: {x: 2675, y: -490}
-        },
-        fill: "pink",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: {
-            upperLeft: {x: 2160, y: -160},
-            upperRight: {x: 2240, y: -160},
-            lowerRight: {x: 2240, y: -240},
-            lowerLeft: {x: 2160, y: -240}
-        },
-        fill: "crimson",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: {
-            upperLeft: {x: 3260, y: -160},
-            upperRight: {x: 3340, y: -160},
-            lowerRight: {x: 3340, y: -240},
-            lowerLeft: {x: 3260, y: -240}
-        },
-        fill: "darkslategray",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: {
-            upperLeft: {x: 3110, y: -230},
-            upperRight: {x: 3190, y: -230},
-            lowerRight: {x: 3190, y: -310},
-            lowerLeft: {x: 3110, y: -310}
-        },
-        fill: "darkslategray",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: {
-            upperLeft: {x: 2310, y: -230},
-            upperRight: {x: 2390, y: -230},
-            lowerRight: {x: 2390, y: -310},
-            lowerLeft: {x: 2310, y: -310}
-        },
-        fill: "khaki",
-        path: [],
-        floating: true
-    },
-    {
-        bounds: {
-            upperLeft: {x: 2460, y: -325},
-            upperRight: {x: 2540, y: -325},
-            lowerRight: {x: 2540, y: -405},
-            lowerLeft: {x: 2460, y: -405}
-        },
-        fill: "firebrick",
-        path: [],
-        floating: true
-    }
+    // {
+    //     bounds: { 
+    //         upperLeft: { x: 300, y: 150 },
+    //         upperRight: {x: 500, y: 160 },
+    //         lowerRight: {x: 510, y: 70},
+    //         lowerLeft: {x: 310, y: 80 }
+    //     },
+    //     fill: "red",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: { 
+    //         upperLeft: { x: 200, y: 40 },
+    //         upperRight: {x: 260, y: 40 },
+    //         lowerRight: {x: 260, y: 20},
+    //         lowerLeft: {x: 200, y: 20 }
+    //     },
+    //     fill: "green",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: {
+    //         upperLeft: {x: 1325, y: -185},
+    //         upperRight: {x: 1425, y: -185},
+    //         lowerRight: {x: 1425, y: -250},
+    //         lowerLeft: {x: 1325, y: -250}
+    //     },
+    //     fill: "blue",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: {
+    //         upperLeft: {x: 1475, y: -100},
+    //         upperRight: {x: 1550, y: -100},
+    //         lowerRight: {x: 1550, y: -175},
+    //         lowerLeft: {x: 1475, y: -175}
+    //     },
+    //     fill: "purple",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: {
+    //         upperLeft: {x: 2010, y: -75},
+    //         upperRight: {x: 2090, y: -75},
+    //         lowerRight: {x: 2090, y: -150},
+    //         lowerLeft: {x: 2010, y: -150}
+    //     },
+    //     fill: "yellow",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: {
+    //         upperLeft: {x: 3410, y: -75},
+    //         upperRight: {x: 3490, y: -75},
+    //         lowerRight: {x: 3490, y: -150},
+    //         lowerLeft: {x: 3410, y: -150}
+    //     },
+    //     fill: "brown",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: {
+    //         upperLeft: {x: 2675, y: -420},
+    //         upperRight: {x: 2825, y: -420},
+    //         lowerRight: {x: 2825, y: -490},
+    //         lowerLeft: {x: 2675, y: -490}
+    //     },
+    //     fill: "pink",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: {
+    //         upperLeft: {x: 2160, y: -160},
+    //         upperRight: {x: 2240, y: -160},
+    //         lowerRight: {x: 2240, y: -240},
+    //         lowerLeft: {x: 2160, y: -240}
+    //     },
+    //     fill: "crimson",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: {
+    //         upperLeft: {x: 3260, y: -160},
+    //         upperRight: {x: 3340, y: -160},
+    //         lowerRight: {x: 3340, y: -240},
+    //         lowerLeft: {x: 3260, y: -240}
+    //     },
+    //     fill: "darkslategray",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: {
+    //         upperLeft: {x: 3110, y: -230},
+    //         upperRight: {x: 3190, y: -230},
+    //         lowerRight: {x: 3190, y: -310},
+    //         lowerLeft: {x: 3110, y: -310}
+    //     },
+    //     fill: "darkslategray",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: {
+    //         upperLeft: {x: 2310, y: -230},
+    //         upperRight: {x: 2390, y: -230},
+    //         lowerRight: {x: 2390, y: -310},
+    //         lowerLeft: {x: 2310, y: -310}
+    //     },
+    //     fill: "khaki",
+    //     path: [],
+    //     floating: true
+    // },
+    // {
+    //     bounds: {
+    //         upperLeft: {x: 2460, y: -325},
+    //         upperRight: {x: 2540, y: -325},
+    //         lowerRight: {x: 2540, y: -405},
+    //         lowerLeft: {x: 2460, y: -405}
+    //     },
+    //     fill: "firebrick",
+    //     path: [],
+    //     floating: true
+    // }
 ];
+
+const bgGroup0Shift = { x: -10000, y: 0 };
+const bgGroup1Shift = { x: -10000, y: 0 };
 
 const obstacleObjects = inlineObstacles.map(ob => {
     const output =  new SimpleObstacle(ob.bounds,ob.fill,ob.path,ob.floating);
     return output;
 });
 
+const startingX = -10000;
+const startingY = 0;
 const maxSpeed = 325;
 const maxAccel = 140;
-let spriteKinematics = { x: 0, y: 0, vx: 0, vy: 0, ax: 0, ay: 0 };
+let spriteKinematics = { x: -10000, y: 0, vx: 0, vy: 0, ax: 0, ay: 0 };
 const gravity = -330;
 let inAir = false;
 const upVelocity = 275;
@@ -881,8 +881,8 @@ if(spriteKinematics.y < groundY) {
 
     
     let cameraX, cameraY;
-    if(spriteKinematics.x < 400) {
-        cameraX = 0;
+    if(spriteKinematics.x < -9600) {
+        cameraX = -10000;
     } else {
         cameraX = spriteKinematics.x - 400;
     }
@@ -904,6 +904,14 @@ if(spriteKinematics.y < groundY) {
         simpleSprite.innerHTML = sprite1.sprites.walkLeft[positionIndex];
     }
     simpleSprite.setAttribute("transform", `translate(${spriteKinematics.x}, ${-spriteKinematics.y})`);
+    //Handle the movement of background and foreground groups
+    bgGroup0Shift.x = (1 - parseFloat(bgGroup0.dataset.scale))*(spriteKinematics.x - startingX);
+    bgGroup0Shift.y = (1 - parseFloat(bgGroup0.dataset.scale))*(spriteKinematics.y - startingY);
+    bgGroup0.setAttribute("transform", `translate(${bgGroup0Shift.x}, ${-bgGroup0Shift.y})`);
+    bgGroup1Shift.x = (1 - parseFloat(bgGroup1.dataset.scale))*(spriteKinematics.x - startingX);
+    bgGroup1Shift.y = (1 - parseFloat(bgGroup1.dataset.scale))*(spriteKinematics.y - startingY);
+    bgGroup0.setAttribute("transform", `translate(${bgGroup0Shift.x}, ${-bgGroup0Shift.y}), scale(${parseFloat(bgGroup0.dataset.scale)})`);
+    bgGroup1.setAttribute("transform", `translate(${bgGroup1Shift.x}, ${-bgGroup1Shift.y}), scale(${parseFloat(bgGroup1.dataset.scale)})`);
     const viewBoxStr = gameScreen.getAttribute('viewBox').split(' ');
     viewBoxStr[0] = `${cameraX}`;
     viewBoxStr[1] = `${-cameraY - 250}`;
