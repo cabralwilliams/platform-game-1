@@ -83,4 +83,17 @@ class SimpleObstacle {
         }
         return max;
     }
+
+    getPathShadow(offX = 1, offY = -1,) {
+        let output = "M";
+        if(this.path.length < 3) {
+            output += `${this.bounds.upperLeft.x + offX} ${-(this.bounds.upperLeft.y + offY)} L ${this.bounds.upperRight.x + offX} ${-(this.bounds.upperRight.y + offY)} L ${this.bounds.lowerRight.x + offX} ${-(this.bounds.lowerRight.y + offY)} L ${this.bounds.lowerLeft.x + offX} ${-(this.bounds.lowerLeft.y + offY)} Z`;
+        } else {
+            for(let i = 0; i < this.path.length - 1; i++) {
+                output += `${this.path[i].x + offX} ${-(this.path[i].y + offY)} L `;
+            }
+            output += `${this.path[this.path.length - 1].x + offX} ${-(this.path[this.path.length - 1].y + offY)} Z`;
+        }
+        return output;
+    }
 }

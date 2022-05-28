@@ -32,6 +32,12 @@ const groundProfiles = [
     },
     {
         type: "linear", x1: -2000, y1: 60, x2: 0, y2: 0
+    },
+    {
+        type: "linear", x1: 0, y1: -20, x2: 2000, y2: -60
+    },
+    {
+        type: "linear", x1: 2000, y1: -60, x2: 4000, y2: -80
     }
 ];
 
@@ -39,6 +45,8 @@ const groundProfiles = [
 // const ground6 = linearPath(-6000,60,-4000,0,'#731C98');
 // const ground7 = linearPath(-4000,-20,-2000,60,'#f39218');
 // const ground8 = linearPath(-2000,60,0,0,'#731C98');
+// const ground9 = linearPath(0,-20,2000,-60,'#f39218');
+// const ground10 = linearPath(2000,-60,4000,-80,'#731C98');
 
 const inlineObstacles = [
     // {
@@ -910,11 +918,11 @@ if(spriteKinematics.y < groundY) {
     bgGroup0.setAttribute("transform", `translate(${bgGroup0Shift.x}, ${-bgGroup0Shift.y})`);
     bgGroup1Shift.x = (1 - parseFloat(bgGroup1.dataset.scale))*(spriteKinematics.x - startingX);
     bgGroup1Shift.y = (1 - parseFloat(bgGroup1.dataset.scale))*(spriteKinematics.y - startingY);
-    bgGroup0.setAttribute("transform", `translate(${bgGroup0Shift.x}, ${-bgGroup0Shift.y}), scale(${parseFloat(bgGroup0.dataset.scale)})`);
-    bgGroup1.setAttribute("transform", `translate(${bgGroup1Shift.x}, ${-bgGroup1Shift.y}), scale(${parseFloat(bgGroup1.dataset.scale)})`);
+    bgGroup0.setAttribute("transform", `translate(${bgGroup0Shift.x}, ${-bgGroup0Shift.y})`);
+    bgGroup1.setAttribute("transform", `translate(${bgGroup1Shift.x}, ${-bgGroup1Shift.y})`);
     const viewBoxStr = gameScreen.getAttribute('viewBox').split(' ');
     viewBoxStr[0] = `${cameraX}`;
-    viewBoxStr[1] = `${-cameraY - 250}`;
+    viewBoxStr[1] = `${-cameraY - 375}`;
     gameScreen.setAttribute("viewBox", viewBoxStr.join(' '));
     timer -= 40;
 }, 40);

@@ -906,7 +906,7 @@ if(spriteKinematics.y < groundY) {
     simpleSprite.setAttribute("transform", `translate(${spriteKinematics.x}, ${-spriteKinematics.y})`);
     const viewBoxStr = gameScreen.getAttribute('viewBox').split(' ');
     viewBoxStr[0] = `${cameraX}`;
-    viewBoxStr[1] = `${-cameraY - 250}`;
+    viewBoxStr[1] = `${-cameraY - 325}`;
     gameScreen.setAttribute("viewBox", viewBoxStr.join(' '));
     timer -= 40;
 }, 40);
