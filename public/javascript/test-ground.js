@@ -4,7 +4,16 @@ let positionIndex = 0;
 let direction = 'right';
 let timer = 500000;
 
+//Get the projectile elements
+const playerProjectile0 = document.querySelector('#playerProjectile0');
+const playerProjectile1 = document.querySelector('#playerProjectile1');
+const playerProjectile2 = document.querySelector('#playerProjectile2');
+const playerProjectile3 = document.querySelector('#playerProjectile3');
+const playerProjectile4 = document.querySelector('#playerProjectile4');
+
 const simpleSprite = document.querySelector("#simpleSprite");
+const bgGroup1 = document.querySelector("#bgGroup1");
+const bgGroup2 = document.querySelector("#bgGroup2");
 
 const groundProfiles = [
     {
@@ -180,11 +189,19 @@ const inlineObstacles = [
     }
 ];
 
+//Background Object Controls
+const bgGroup1Shift = { x: 100, y: 0 };
+const bgGroup2Shift = { x: -30000, y: 0};
+
 const obstacleObjects = inlineObstacles.map(ob => {
     const output =  new SimpleObstacle(ob.bounds,ob.fill,ob.path,ob.floating);
     return output;
 });
 
+
+//Administrative Variables
+const startingX = 0;
+const startingY = 0;
 const maxSpeed = 325;
 const maxAccel = 140;
 let spriteKinematics = { x: 0, y: 0, vx: 0, vy: 0, ax: 0, ay: 0 };
@@ -196,6 +213,15 @@ let againstPlatform = false;
 let onObstacle = false;
 let obstacleIndex = 0;
 let jumpCount = 0;
+let isThrowing = false;
+let projectileCount = 0; //Track the number of player projectiles
+//Declare Player Projectile Variables - Might limit at some point
+let playProj0 = null;
+let playProj1 = null;
+let playProj2 = null;
+let playProj3 = null;
+let playProj4 = null;
+let projectilePlaced = false;
 
 const groundDynamics = {
     inWell: false, wallLeft: false, cliffLeft: false, wallRight: false, cliffRight: false
@@ -312,6 +338,59 @@ function handleKeyDown(event) {
             spriteKinematics.ax = -maxAccel/2;
         }
     }
+    if(event.code === "KeyB" && !isThrowing) {
+        isThrowing = true;
+        positionIndex = 0;
+        //Create the projectile if there are fewer than five created
+        if(projectileCount < 5) {
+            if(direction === 'right') {
+                if(playProj0 === null) {
+                    playProj0 = new SimpleProjectile(fireBallRight1());
+                    playProj0.projectileVelocity = 400;
+                    playProj0.projectilePosition.y += spriteKinematics.y;
+                    console.log(playProj0);
+                } else if(playProj1 === null) {
+                    playProj1 = new SimpleProjectile(fireBallRight1());
+                    playProj1.projectileVelocity = 400;
+                    playProj1.projectilePosition.y += spriteKinematics.y;
+                } else if(playProj2 === null) {
+                    playProj2 = new SimpleProjectile(fireBallRight1());
+                    playProj2.projectileVelocity = 400;
+                    playProj2.projectilePosition.y += spriteKinematics.y;
+                } else if(playProj3 === null) {
+                    playProj3 = new SimpleProjectile(fireBallRight1());
+                    playProj3.projectileVelocity = 400;
+                    playProj3.projectilePosition.y += spriteKinematics.y;
+                } else {
+                    playProj4 = new SimpleProjectile(fireBallRight1());
+                    playProj4.projectileVelocity = 400;
+                    playProj4.projectilePosition.y += spriteKinematics.y;
+                }
+            } else {
+                if(playProj0 === null) {
+                    playProj0 = new SimpleProjectile(fireBallLeft1());
+                    playProj0.projectileVelocity = -400;
+                    playProj0.projectilePosition.y += spriteKinematics.y;
+                } else if(playProj1 === null) {
+                    playProj1 = new SimpleProjectile(fireBallLeft1());
+                    playProj1.projectileVelocity = -400;
+                    playProj1.projectilePosition.y += spriteKinematics.y;
+                } else if(playProj2 === null) {
+                    playProj2 = new SimpleProjectile(fireBallLeft1());
+                    playProj2.projectileVelocity = -400;
+                    playProj2.projectilePosition.y += spriteKinematics.y;
+                } else if(playProj3 === null) {
+                    playProj3 = new SimpleProjectile(fireBallLeft1());
+                    playProj3.projectileVelocity = -400;
+                    playProj3.projectilePosition.y += spriteKinematics.y;
+                } else {
+                    playProj4 = new SimpleProjectile(fireBallLeft1());
+                    playProj4.projectileVelocity = -400;
+                    playProj4.projectilePosition.y += spriteKinematics.y;
+                }
+            }
+        }
+    }
 }
 
 function handleKeyUp(event) {
@@ -344,10 +423,134 @@ document.addEventListener('keyup', handleKeyUp);
 const thresh = 10;
 
 const gameLoop = setInterval(() => {
-    if(!inAir) {
+    if(!inAir && !isThrowing) {
         positionIndex++;
+    } else if(isThrowing) {
+        positionIndex++;
+        //Create projectile if conditions dicate it
+        if(!projectilePlaced) {
+            if(playProj0 !== null && playProj0.projectileLife === 0) {
+                console.log(playProj0);
+                playProj0.projectileLife = -0.01;
+                for(let i = 0; i < playProj0.transformedData.length; i++) {
+                    let newPath = `<path d='${playProj0.transformedData[i].pathD}' fill='${playProj0.transformedData[i].fill}' opacity='${playProj0.transformedData[i].opacity}' />`;
+                    playerProjectile0.innerHTML = newPath;
+                    playerProjectile0.setAttribute('transform', `translate(${playProj0.projectilePosition.x + spriteKinematics.x}, ${-playProj0.projectilePosition.y})`);
+                }
+                if(projectileCount === 5) {
+                    projectilePlaced = true;
+                }
+            } else if(playProj1 !== null && playProj1.projectileLife === 0) {
+                playProj1.projectileLife = -0.01;
+                for(let i = 0; i < playProj1.transformedData.length; i++) {
+                    let newPath = `<path d='${playProj1.transformedData[i].pathD}' fill='${playProj1.transformedData[i].fill}' opacity='${playProj1.transformedData[i].opacity}' />`;
+                    playerProjectile1.innerHTML = newPath;
+                    playerProjectile1.setAttribute('transform', `translate(${playProj1.projectilePosition.x + spriteKinematics.x}, ${-playProj1.projectilePosition.y})`);
+                }
+                if(projectileCount === 5) {
+                    projectilePlaced = true;
+                }
+            } else if(playProj2 !== null && playProj2.projectileLife === 0) {
+                playProj2.projectileLife = -0.01;
+                for(let i = 0; i < playProj2.transformedData.length; i++) {
+                    let newPath = `<path d='${playProj2.transformedData[i].pathD}' fill='${playProj2.transformedData[i].fill}' opacity='${playProj2.transformedData[i].opacity}' />`;
+                    playerProjectile2.innerHTML = newPath;
+                    playerProjectile2.setAttribute('transform', `translate(${playProj2.projectilePosition.x + spriteKinematics.x}, ${-playProj2.projectilePosition.y})`);
+                }
+                if(projectileCount === 5) {
+                    projectilePlaced = true;
+                }
+            } else if(playProj3 !== null && playProj3.projectileLife === 0) {
+                playerProjectile3.projectileLife = -0.01;
+                for(let i = 0; i < playProj3.transformedData.length; i++) {
+                    let newPath = `<path d='${playProj3.transformedData[i].pathD}' fill='${playProj3.transformedData[i].fill}' opacity='${playProj3.transformedData[i].opacity}' />`;
+                    playerProjectile3.innerHTML = newPath;
+                    playerProjectile3.setAttribute('transform', `translate(${playProj3.projectilePosition.x + spriteKinematics.x}, ${-playProj3.projectilePosition.y})`);
+                }
+                if(projectileCount === 5) {
+                    projectilePlaced = true;
+                }
+            } else if(playProj4 !== null && playProj4.projectileLife === 0) {
+                playProj4.projectileLife = -0.01;
+                for(let i = 0; i < playProj4.transformedData.length; i++) {
+                    let newPath = `<path d='${playProj4.transformedData[i].pathD}' fill='${playProj4.transformedData[i].fill}' opacity='${playProj4.transformedData[i].opacity}' />`;
+                    playerProjectile4.innerHTML = newPath;
+                    playerProjectile4.setAttribute('transform', `translate(${playProj4.projectilePosition.x + spriteKinematics.x}, ${-playProj4.projectilePosition.y})`);
+                }
+                if(projectileCount === 5) {
+                    projectilePlaced = true;
+                }
+            }
+        }
     } else {
         onObstacle = false;
+    }
+
+    //Handle projectile motion if they exist
+    if(playProj0 !== null) {
+        playProj0.projectileLife += 0.04;
+        playProj0.projectilePosition.x += playProj0.projectileVelocity*0.04;
+        playerProjectile0.setAttribute('transform', `translate(${playProj0.projectilePosition.x + spriteKinematics.x}, ${-playProj0.projectilePosition.y})`);
+        if(playProj0.projectileLife > 1.5) {
+            //Reset variable to null and clear element if it exceeds life limit
+            playProj0 = null;
+            playerProjectile0.innerHTML = "";
+        }
+        projectilePlaced = false;
+    }
+
+    if(playProj1 !== null) {
+        playProj1.projectileLife += 0.04;
+        playProj1.projectilePosition.x += playProj1.projectileVelocity*0.04;
+        playerProjectile1.setAttribute('transform', `translate(${playProj1.projectilePosition.x + spriteKinematics.x}, ${-playProj1.projectilePosition.y})`);
+        if(playProj1.projectileLife > 1.5) {
+            //Reset variable to null and clear element if it exceeds life limit
+            playProj1 = null;
+            playerProjectile1.innerHTML = "";
+        }
+        projectilePlaced = false;
+    }
+
+    if(playProj2 !== null) {
+        playProj2.projectileLife += 0.04;
+        playProj2.projectilePosition.x += playProj2.projectileVelocity*0.04;
+        playerProjectile2.setAttribute('transform', `translate(${playProj2.projectilePosition.x + spriteKinematics.x}, ${-playProj2.projectilePosition.y})`);
+        if(playProj2.projectileLife > 1.5) {
+            //Reset variable to null and clear element if it exceeds life limit
+            playProj2 = null;
+            playerProjectile2.innerHTML = "";
+        }
+        projectilePlaced = false;
+    }
+
+    if(playProj3 !== null) {
+        playProj3.projectileLife += 0.04;
+        playProj3.projectilePosition.x += playProj3.projectileVelocity*0.04;
+        playerProjectile3.setAttribute('transform', `translate(${playProj3.projectilePosition.x + spriteKinematics.x}, ${-playProj3.projectilePosition.y})`);
+        if(playProj3.projectileLife > 1.5) {
+            //Reset variable to null and clear element if it exceeds life limit
+            playProj3 = null;
+            playerProjectile3.innerHTML = "";
+        }
+        projectilePlaced = false;
+    }
+
+    if(playProj4 !== null) {
+        playProj4.projectileLife += 0.04;
+        playProj4.projectilePosition.x += playProj4.projectileVelocity*0.04;
+        playerProjectile4.setAttribute('transform', `translate(${playProj4.projectilePosition.x + spriteKinematics.x}, ${-playProj4.projectilePosition.y})`);
+        if(playProj4.projectileLife > 1.5) {
+            //Reset variable to null and clear element if it exceeds life limit
+            playProj4 = null;
+            playerProjectile4.innerHTML = "";
+        }
+        projectilePlaced = false;
+    }
+
+    //End throwing motion and grant control back to normal motion
+    if(isThrowing && positionIndex > sprite1.sprites.throwLeft.length - 1) {
+        positionIndex = 0;
+        isThrowing = false;
     }
     if(positionIndex > sprite1.sprites.walkLeft.length - 1) {
         positionIndex = 0;
@@ -892,7 +1095,14 @@ if(spriteKinematics.y < groundY) {
     } else if(spriteKinematics.vx < 0) {
         direction = "left";
     }
-    if(spriteKinematics.vx === 0) {
+
+    if(isThrowing) {
+        if(direction === 'right') {
+            simpleSprite.innerHTML = sprite1.sprites.throwRight[positionIndex];
+        } else {
+            simpleSprite.innerHTML = sprite1.sprites.throwLeft[positionIndex];
+        }
+    } else if(spriteKinematics.vx === 0) {
         if(direction === "right") {
             simpleSprite.innerHTML = sprite1.sprites.standRight;
         } else {
@@ -904,6 +1114,14 @@ if(spriteKinematics.y < groundY) {
         simpleSprite.innerHTML = sprite1.sprites.walkLeft[positionIndex];
     }
     simpleSprite.setAttribute("transform", `translate(${spriteKinematics.x}, ${-spriteKinematics.y})`);
+    //Shift background objects
+    bgGroup1Shift.x = (1 - parseFloat(bgGroup1.dataset.scale))*(spriteKinematics.x - startingX);
+    bgGroup1Shift.y = (1 - parseFloat(bgGroup1.dataset.scale))*(spriteKinematics.y - startingY);
+    bgGroup1.setAttribute("transform", `translate(${bgGroup1Shift.x}, ${-bgGroup1Shift.y})`);
+
+    bgGroup2Shift.x = (1 - parseFloat(bgGroup2.dataset.scale))*(spriteKinematics.x - startingX);
+    bgGroup2Shift.y = (1 - parseFloat(bgGroup2.dataset.scale))*(spriteKinematics.y - startingY);
+    bgGroup2.setAttribute("transform", `translate(${bgGroup2Shift.x}, ${-bgGroup2Shift.y})`);
     const viewBoxStr = gameScreen.getAttribute('viewBox').split(' ');
     viewBoxStr[0] = `${cameraX}`;
     viewBoxStr[1] = `${-cameraY - 325}`;

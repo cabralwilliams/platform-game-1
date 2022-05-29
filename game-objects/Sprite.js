@@ -36,6 +36,34 @@ class BoxSprite {
         return output;
     }
 
+    getThrowPosition(angleObject,angleIndex,direction) {
+        let output;
+        if(direction === 'left') {
+            output = `<rect x='-18' y='${-this.shHeight}' width='10' height='${this.armLength}' fill='black' transform='rotate(${-angleObject.rightArm[angleIndex]} -13 ${-this.shHeight + 5})' opacity='0.9' />
+            <rect x='-17' y='${-this.shHeight}' width='10' height='${this.armLength}' fill='${this.colorOb.rightArm}' transform='rotate(${-angleObject.rightArm[angleIndex]} -12 ${-this.shHeight + 5})' />
+            <rect x='-13.5' y='${-this.hipHeight}' width='12' height='${this.hipHeight}' fill='black' transform='rotate(${-angleObject.rightLeg[angleIndex]} -7.5 ${-this.hipHeight + 6})' opacity='0.9' />
+            <rect x='-12.5' y='${-this.hipHeight}' width='12' height='${this.hipHeight}' fill='${this.colorOb.rightLeg}' transform='rotate(${-angleObject.rightLeg[angleIndex]} -6.5 ${-this.hipHeight + 6})' />
+            <rect x='-11' y='-120' width='20' height='70' fill='black' opacity='0.9' />
+            <rect x='-10' y='-120' width='20' height='70' fill='${this.colorOb.body}' />
+            <rect x='-0.5' y='${-this.hipHeight}' width='12' height='${this.hipHeight}' fill='black' transform='rotate(${-angleObject.leftLeg[angleIndex]} 5.5 ${-this.hipHeight + 6})' opacity='0.9' />
+            <rect x='0.5' y='${-this.hipHeight}' width='12' height='${this.hipHeight}' fill='${this.colorOb.leftLeg}' transform='rotate(${-angleObject.leftLeg[angleIndex]} 6.5 ${-this.hipHeight + 6})' />
+            <rect x='2' y='${-this.shHeight}' width='10' height='${this.armLength}' fill='black' transform='rotate(${-angleObject.leftArm[angleIndex]} 7 ${-this.shHeight + 5})' opacity='0.9' />
+            <rect x='3' y='${-this.shHeight}' width='10' height='${this.armLength}' fill='${this.colorOb.leftArm}' transform='rotate(${-angleObject.leftArm[angleIndex]} 8 ${-this.shHeight + 5})' />`;
+        } else {
+            output = `<rect x='4' y='${-this.shHeight}' width='10' height='${this.armLength}' fill='black' transform='rotate(${angleObject.leftArm[angleIndex]} 9 ${-this.shHeight + 5})' opacity='0.9' />
+            <rect x='3' y='${-this.shHeight}' width='10' height='${this.armLength}' fill='${this.colorOb.leftArm}' transform='rotate(${angleObject.leftArm[angleIndex]} 8 ${-this.shHeight + 5})' />
+            <rect x='1.5' y='${-this.hipHeight}' width='12' height='${this.hipHeight}' fill='black' transform='rotate(${angleObject.leftLeg[angleIndex]} 7.5 ${-this.hipHeight + 6})' opacity='0.9' />
+            <rect x='0.5' y='${-this.hipHeight}' width='12' height='${this.hipHeight}' fill='${this.colorOb.leftLeg}' transform='rotate(${angleObject.leftLeg[angleIndex]} 6.5 ${-this.hipHeight + 6})' />
+            <rect x='-9' y='-120' width='20' height='70' fill='black' opacity='0.9' />
+            <rect x='-10' y='-120' width='20' height='70' fill='${this.colorOb.body}' />
+            <rect x='-11.5' y='${-this.hipHeight}' width='12' height='${this.hipHeight}' fill='black' transform='rotate(${angleObject.rightLeg[angleIndex]} -5.5 ${-this.hipHeight + 6})' opacity='0.9' />
+            <rect x='-12.5' y='${-this.hipHeight}' width='12' height='${this.hipHeight}' fill='${this.colorOb.rightLeg}' transform='rotate(${angleObject.rightLeg[angleIndex]} -6.5 ${-this.hipHeight + 6})' />
+            <rect x='-16' y='${-this.shHeight}' width='10' height='${this.armLength}' fill='black' transform='rotate(${angleObject.rightArm[angleIndex]} -11 ${-this.shHeight + 5})' opacity='0.9' />
+            <rect x='-17' y='${-this.shHeight}' width='10' height='${this.armLength}' fill='${this.colorOb.rightArm}' transform='rotate(${angleObject.rightArm[angleIndex]} -12 ${-this.shHeight + 5})' />`;
+        }
+        return output;
+    }
+
     generateSprites() {
         const legMax = 25;
         const armMax = 20;
@@ -48,6 +76,13 @@ class BoxSprite {
                 return val*legMax/12;
             })
         };
+
+        const throwAngles = {
+            rightArm: [135,162,189,216,243,270],
+            leftArm: [-90,-72,-54,-36,-18,0],
+            rightLeg: [30,18,6,-6,-18,-30],
+            leftLeg: [-15,-12,-9,-6,-3,0]
+        }
 
         let standRight = `<rect x='4' y='${-this.shHeight}' width='10' height='${this.armLength}' fill='black' opacity='0.9' />
         <rect x='3' y='${-this.shHeight}' width='10' height='${this.armLength}' fill='${this.colorOb.leftArm}' />
@@ -73,6 +108,8 @@ class BoxSprite {
 
         const walkRight = [];
         const walkLeft = [];
+        const throwRight = [];
+        const throwLeft = [];
         //Increasing angles from 0
         for(let i = 0; i < walkAngles.shoulders.length; i++) {
             walkRight.push(this.getSpritePosition(walkAngles.shoulders[i],walkAngles.hips[i],'right'));
@@ -94,6 +131,11 @@ class BoxSprite {
             walkLeft.push(this.getSpritePosition(-walkAngles.shoulders[i],-walkAngles.hips[i],'left'));
         }
 
-        return { standLeft, standRight, walkLeft, walkRight };
+        for(let i = 0; i < 6; i++) {
+            throwRight.push(this.getThrowPosition(throwAngles,i,'right'));
+            throwLeft.push(this.getThrowPosition(throwAngles,i,'left'));
+        }
+
+        return { standLeft, standRight, walkLeft, walkRight, throwLeft, throwRight };
     }
 }

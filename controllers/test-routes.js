@@ -34,7 +34,36 @@ router.get("/ground1", (req, res) => {
     const ob12 = new SimpleObstacle({ upperLeft: {x: 2460, y: -325}, upperRight: {x: 2540, y: -325}, lowerRight: {x: 2540, y: -405}, lowerLeft: {x: 2460, y: -405}}, "firebrick", [], true);
     const backgroundFixed = [{ pathD: ob1.pathD, fill: ob1.fill, shadowPath: ob1.getPathShadow() }, { pathD: ob2.pathD, fill: ob2.fill, shadowPath: ob2.getPathShadow() }, { pathD: ob3.pathD, fill: ob3.fill, shadowPath: ob3.getPathShadow() }, { pathD: ob4.pathD, fill: ob4.fill, shadowPath: ob4.getPathShadow() }, { pathD: ob5.pathD, fill: ob5.fill, shadowPath: ob5.getPathShadow() }, { pathD: ob6.pathD, fill: ob6.fill, shadowPath: ob6.getPathShadow() }, { pathD: ob7.pathD, fill: ob7.fill, shadowPath: ob7.getPathShadow() }, { pathD: ob8.pathD, fill: ob8.fill, shadowPath: ob8.getPathShadow() }, { pathD: ob9.pathD, fill: ob9.fill, shadowPath: ob9.getPathShadow() }, { pathD: ob10.pathD, fill: ob10.fill, shadowPath: ob10.getPathShadow() }, { pathD: ob11.pathD, fill: ob11.fill, shadowPath: ob11.getPathShadow() }, { pathD: ob12.pathD, fill: ob12.fill, shadowPath: ob12.getPathShadow() }];
     const gr1 = new Ground([linPath1,linPath2,linPath3,linPath4,linPath5,linPath6,linPath7,linPath8,linPath9,linPath10,linPath11],-1000,0.5);
-    const svgObject = { initialX: 0, initialY: -325, screenWidth: 800, screenHeight: 500, groundPaths: gr1.groundProfile, character: [1], backgroundFixed };
+    //Background objects
+    const bgP2C = new BackgroundPath(createCircularPath(100,305,50,Math.PI/360),"orange",1,0.1);
+    const bgP2D = new BackgroundPath(createCircularPath(97,302,50,Math.PI/360),"black",0.9,0.1);
+    const bgP3A = new BackgroundPath([{x: -30000, y: -30000}, {x: 30000, y: -30000}, {x: 30000, y: 30000}, {x: -30000, y: 30000}], "#3557c7",1,0.01);
+    const bgG2 = new BackgroundGroup([bgP2D,bgP2C]);
+    const bgG3 = new BackgroundGroup([bgP3A]);
+    const bGroup1 = {
+        groupNumber: 1,
+        dataScale: bgG2.scaleFactor,
+        backgroundObject: bgG2.pathObjects.map(ob => {
+            return {
+                pathD: ob.pathD,
+                pathFill: ob.pathFill,
+                pathOpacity: ob.pathOpacity
+            };
+        })
+    }
+    const bGroup2 = {
+        groupNumber: 2,
+        dataScale: bgG3.scaleFactor,
+        backgroundObject: bgG3.pathObjects.map(ob => {
+            return {
+                pathD: ob.pathD,
+                pathFill: ob.pathFill,
+                pathOpacity: ob.pathOpacity
+            };
+        })
+    }
+    const backgroundGroups = [bGroup2,bGroup1];
+    const svgObject = { initialX: 0, initialY: -325, screenWidth: 800, screenHeight: 500, groundPaths: gr1.groundProfile, character: [1], backgroundFixed, backgroundGroups };
     res.render('test-ground', svgObject);
 });
 
