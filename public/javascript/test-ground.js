@@ -11,6 +11,13 @@ const playerProjectile2 = document.querySelector('#playerProjectile2');
 const playerProjectile3 = document.querySelector('#playerProjectile3');
 const playerProjectile4 = document.querySelector('#playerProjectile4');
 
+//Get the enemy elements
+const enemy0 = document.querySelector('#enemy0');
+const enemy1 = document.querySelector('#enemy1');
+const enemy2 = document.querySelector('#enemy2');
+const enemy3 = document.querySelector('#enemy3');
+const enemy4 = document.querySelector('#enemy4');
+
 const simpleSprite = document.querySelector("#simpleSprite");
 const bgGroup1 = document.querySelector("#bgGroup1");
 const bgGroup2 = document.querySelector("#bgGroup2");
@@ -198,7 +205,6 @@ const obstacleObjects = inlineObstacles.map(ob => {
     return output;
 });
 
-
 //Administrative Variables
 const startingX = 0;
 const startingY = 0;
@@ -348,45 +354,57 @@ function handleKeyDown(event) {
                     playProj0 = new SimpleProjectile(fireBallRight1());
                     playProj0.projectileVelocity = 400;
                     playProj0.projectilePosition.y += spriteKinematics.y;
+                    console.log(`Projectile 0 x: ${playProj0.projectilePosition.x}`);
+                    console.log(`Sprite x: ${spriteKinematics.x}`);
+                    playProj0.projectilePosition.x += spriteKinematics.x;
                     console.log(playProj0);
                 } else if(playProj1 === null) {
                     playProj1 = new SimpleProjectile(fireBallRight1());
                     playProj1.projectileVelocity = 400;
                     playProj1.projectilePosition.y += spriteKinematics.y;
+                    playProj1.projectilePosition.x += spriteKinematics.x;
                 } else if(playProj2 === null) {
                     playProj2 = new SimpleProjectile(fireBallRight1());
                     playProj2.projectileVelocity = 400;
                     playProj2.projectilePosition.y += spriteKinematics.y;
+                    playProj2.projectilePosition.x += spriteKinematics.x;
                 } else if(playProj3 === null) {
                     playProj3 = new SimpleProjectile(fireBallRight1());
                     playProj3.projectileVelocity = 400;
                     playProj3.projectilePosition.y += spriteKinematics.y;
+                    playProj3.projectilePosition.x += spriteKinematics.x;
                 } else {
                     playProj4 = new SimpleProjectile(fireBallRight1());
                     playProj4.projectileVelocity = 400;
                     playProj4.projectilePosition.y += spriteKinematics.y;
+                    playProj4.projectilePosition.x += spriteKinematics.x;
                 }
             } else {
                 if(playProj0 === null) {
                     playProj0 = new SimpleProjectile(fireBallLeft1());
                     playProj0.projectileVelocity = -400;
                     playProj0.projectilePosition.y += spriteKinematics.y;
+                    playProj0.projectilePosition.x += spriteKinematics.x;
                 } else if(playProj1 === null) {
                     playProj1 = new SimpleProjectile(fireBallLeft1());
                     playProj1.projectileVelocity = -400;
                     playProj1.projectilePosition.y += spriteKinematics.y;
+                    playProj1.projectilePosition.x += spriteKinematics.x;
                 } else if(playProj2 === null) {
                     playProj2 = new SimpleProjectile(fireBallLeft1());
                     playProj2.projectileVelocity = -400;
                     playProj2.projectilePosition.y += spriteKinematics.y;
+                    playProj2.projectilePosition.x += spriteKinematics.x;
                 } else if(playProj3 === null) {
                     playProj3 = new SimpleProjectile(fireBallLeft1());
                     playProj3.projectileVelocity = -400;
                     playProj3.projectilePosition.y += spriteKinematics.y;
+                    playProj3.projectilePosition.x += spriteKinematics.x;
                 } else {
                     playProj4 = new SimpleProjectile(fireBallLeft1());
                     playProj4.projectileVelocity = -400;
                     playProj4.projectilePosition.y += spriteKinematics.y;
+                    playProj4.projectilePosition.x += spriteKinematics.x;
                 }
             }
         }
@@ -422,6 +440,44 @@ document.addEventListener('keydown', handleKeyDown);
 document.addEventListener('keyup', handleKeyUp);
 const thresh = 10;
 
+//Create Enemy Objects
+let enemyOb1 = floatingEnemy1(20);
+let ey0 = calculateGround(groundProfiles[5],750);
+let ey0A = new SimpleEnemy(enemyOb1.pathDataArray,enemyOb1.bounds,{x: 750, y: ey0});
+// ey0A.moveAndAdjust(750,ey0);
+let ey0B = { ...ey0A.bounds, currentLocation: ey0A.currentLocation };
+console.log(`ey0B: ${JSON.stringify(ey0B)}`);
+
+let enemyOb2 = floatingEnemy1(20);
+let ey1 = calculateGround(groundProfiles[6],1100);
+let ey1A = new SimpleEnemy(enemyOb2.pathDataArray,enemyOb2.bounds,{x: 1100, y: ey1});
+// ey0A.moveAndAdjust(750,ey0);
+let ey1B = { ...ey1A.bounds, currentLocation: ey1A.currentLocation };
+console.log(`ey1B: ${JSON.stringify(ey1B)}`);
+
+let enemyOb3 = floatingEnemy1(-15);
+let ey2 = calculateGround(groundProfiles[8],1800);
+let ey2A = new SimpleEnemy(enemyOb3.pathDataArray,enemyOb3.bounds,{x: 1800, y: ey2});
+// ey0A.moveAndAdjust(750,ey0);
+let ey2B = { ...ey2A.bounds, currentLocation: ey2A.currentLocation };
+console.log(`ey2B: ${JSON.stringify(ey2B)}`);
+
+let enemyOb4 = floatingEnemy1(100);
+let ey3 = calculateGround(groundProfiles[9],2750);
+let ey3A = new SimpleEnemy(enemyOb4.pathDataArray,enemyOb4.bounds,{x: 2750, y: ey3});
+// ey0A.moveAndAdjust(750,ey0);
+let ey3B = { ...ey3A.bounds, currentLocation: ey3A.currentLocation };
+console.log(`ey3B: ${JSON.stringify(ey3B)}`);
+//Enemies
+let enemyObs = [ey0B,ey1B,ey2B,ey3B];
+enemy0.innerHTML = ey0A.combinedPaths;
+enemy0.setAttribute('transform', `translate(${750}, ${-ey0})`);
+enemy1.innerHTML = ey1A.combinedPaths;
+enemy1.setAttribute('transform', `translate(${1100}, ${-ey1})`);
+enemy2.innerHTML = ey2A.combinedPaths;
+enemy2.setAttribute('transform', `translate(${1800}, ${-ey2})`);
+enemy3.innerHTML = ey3A.combinedPaths;
+enemy3.setAttribute('transform', `translate(${2750}, ${-ey3})`);
 const gameLoop = setInterval(() => {
     if(!inAir && !isThrowing) {
         positionIndex++;
@@ -435,7 +491,7 @@ const gameLoop = setInterval(() => {
                 for(let i = 0; i < playProj0.transformedData.length; i++) {
                     let newPath = `<path d='${playProj0.transformedData[i].pathD}' fill='${playProj0.transformedData[i].fill}' opacity='${playProj0.transformedData[i].opacity}' />`;
                     playerProjectile0.innerHTML = newPath;
-                    playerProjectile0.setAttribute('transform', `translate(${playProj0.projectilePosition.x + spriteKinematics.x}, ${-playProj0.projectilePosition.y})`);
+                    playerProjectile0.setAttribute('transform', `translate(${playProj0.projectilePosition.x}, ${-playProj0.projectilePosition.y})`);
                 }
                 if(projectileCount === 5) {
                     projectilePlaced = true;
@@ -445,7 +501,7 @@ const gameLoop = setInterval(() => {
                 for(let i = 0; i < playProj1.transformedData.length; i++) {
                     let newPath = `<path d='${playProj1.transformedData[i].pathD}' fill='${playProj1.transformedData[i].fill}' opacity='${playProj1.transformedData[i].opacity}' />`;
                     playerProjectile1.innerHTML = newPath;
-                    playerProjectile1.setAttribute('transform', `translate(${playProj1.projectilePosition.x + spriteKinematics.x}, ${-playProj1.projectilePosition.y})`);
+                    playerProjectile1.setAttribute('transform', `translate(${playProj1.projectilePosition.x}, ${-playProj1.projectilePosition.y})`);
                 }
                 if(projectileCount === 5) {
                     projectilePlaced = true;
@@ -455,7 +511,7 @@ const gameLoop = setInterval(() => {
                 for(let i = 0; i < playProj2.transformedData.length; i++) {
                     let newPath = `<path d='${playProj2.transformedData[i].pathD}' fill='${playProj2.transformedData[i].fill}' opacity='${playProj2.transformedData[i].opacity}' />`;
                     playerProjectile2.innerHTML = newPath;
-                    playerProjectile2.setAttribute('transform', `translate(${playProj2.projectilePosition.x + spriteKinematics.x}, ${-playProj2.projectilePosition.y})`);
+                    playerProjectile2.setAttribute('transform', `translate(${playProj2.projectilePosition.x}, ${-playProj2.projectilePosition.y})`);
                 }
                 if(projectileCount === 5) {
                     projectilePlaced = true;
@@ -465,7 +521,7 @@ const gameLoop = setInterval(() => {
                 for(let i = 0; i < playProj3.transformedData.length; i++) {
                     let newPath = `<path d='${playProj3.transformedData[i].pathD}' fill='${playProj3.transformedData[i].fill}' opacity='${playProj3.transformedData[i].opacity}' />`;
                     playerProjectile3.innerHTML = newPath;
-                    playerProjectile3.setAttribute('transform', `translate(${playProj3.projectilePosition.x + spriteKinematics.x}, ${-playProj3.projectilePosition.y})`);
+                    playerProjectile3.setAttribute('transform', `translate(${playProj3.projectilePosition.x}, ${-playProj3.projectilePosition.y})`);
                 }
                 if(projectileCount === 5) {
                     projectilePlaced = true;
@@ -475,7 +531,7 @@ const gameLoop = setInterval(() => {
                 for(let i = 0; i < playProj4.transformedData.length; i++) {
                     let newPath = `<path d='${playProj4.transformedData[i].pathD}' fill='${playProj4.transformedData[i].fill}' opacity='${playProj4.transformedData[i].opacity}' />`;
                     playerProjectile4.innerHTML = newPath;
-                    playerProjectile4.setAttribute('transform', `translate(${playProj4.projectilePosition.x + spriteKinematics.x}, ${-playProj4.projectilePosition.y})`);
+                    playerProjectile4.setAttribute('transform', `translate(${playProj4.projectilePosition.x}, ${-playProj4.projectilePosition.y})`);
                 }
                 if(projectileCount === 5) {
                     projectilePlaced = true;
@@ -489,60 +545,174 @@ const gameLoop = setInterval(() => {
     //Handle projectile motion if they exist
     if(playProj0 !== null) {
         playProj0.projectileLife += 0.04;
-        playProj0.projectilePosition.x += playProj0.projectileVelocity*0.04;
-        playerProjectile0.setAttribute('transform', `translate(${playProj0.projectilePosition.x + spriteKinematics.x}, ${-playProj0.projectilePosition.y})`);
-        if(playProj0.projectileLife > 1.5) {
-            //Reset variable to null and clear element if it exceeds life limit
+        //Check for colision first
+        let collided = terminateProjectile(playProj0,obstacleObjects,groundProfiles,enemyObs);
+        console.log(`Enemy0 Data: ${JSON.stringify(ey0A.bounds)}`);
+        console.log(collided);
+        //Remove enemy if appropriate: clear html and set array position to null
+        if(collided.removeEnemy) {
+            if(collided.enemyIndex === 0) {
+                enemy0.innerHTML = "";
+                enemyObs[0] = null;
+            } else if(collided.enemyIndex === 1) {
+                enemy1.innerHTML = "";
+                enemyObs[1] = null;
+            } else if(collided.enemyIndex === 2) {
+                enemy2.innerHTML = "";
+                enemyObs[2] = null;
+            } else if(collided.enemyIndex === 3) {
+                enemy3.innerHTML = "";
+                enemyObs[3] = null;
+            }
+        }
+        if(collided.removeProjectile) {
             playProj0 = null;
             playerProjectile0.innerHTML = "";
+        } else {
+            playProj0.projectilePosition.x += playProj0.projectileVelocity*0.04;
+            playerProjectile0.setAttribute('transform', `translate(${playProj0.projectilePosition.x}, ${-playProj0.projectilePosition.y})`);
+            if(playProj0.projectileLife > 1.5) {
+                //Reset variable to null and clear element if it exceeds life limit
+                playProj0 = null;
+                playerProjectile0.innerHTML = "";
+            }
         }
         projectilePlaced = false;
     }
 
     if(playProj1 !== null) {
         playProj1.projectileLife += 0.04;
-        playProj1.projectilePosition.x += playProj1.projectileVelocity*0.04;
-        playerProjectile1.setAttribute('transform', `translate(${playProj1.projectilePosition.x + spriteKinematics.x}, ${-playProj1.projectilePosition.y})`);
-        if(playProj1.projectileLife > 1.5) {
-            //Reset variable to null and clear element if it exceeds life limit
+        //Check for colision first
+        let collided = terminateProjectile(playProj1,obstacleObjects,groundProfiles,enemyObs);
+        //Remove enemy if appropriate: clear html and set array position to null
+        if(collided.removeEnemy) {
+            if(collided.enemyIndex === 0) {
+                enemy0.innerHTML = "";
+                enemyObs[0] = null;
+            } else if(collided.enemyIndex === 1) {
+                enemy1.innerHTML = "";
+                enemyObs[1] = null;
+            } else if(collided.enemyIndex === 2) {
+                enemy2.innerHTML = "";
+                enemyObs[2] = null;
+            } else if(collided.enemyIndex === 3) {
+                enemy3.innerHTML = "";
+                enemyObs[3] = null;
+            }
+        }
+        if(collided.removeProjectile) {
             playProj1 = null;
             playerProjectile1.innerHTML = "";
+        } else {
+            playProj1.projectilePosition.x += playProj1.projectileVelocity*0.04;
+            playerProjectile1.setAttribute('transform', `translate(${playProj1.projectilePosition.x}, ${-playProj1.projectilePosition.y})`);
+            if(playProj1.projectileLife > 1.5) {
+                //Reset variable to null and clear element if it exceeds life limit
+                playProj1 = null;
+                playerProjectile1.innerHTML = "";
+            }
         }
         projectilePlaced = false;
     }
 
     if(playProj2 !== null) {
         playProj2.projectileLife += 0.04;
-        playProj2.projectilePosition.x += playProj2.projectileVelocity*0.04;
-        playerProjectile2.setAttribute('transform', `translate(${playProj2.projectilePosition.x + spriteKinematics.x}, ${-playProj2.projectilePosition.y})`);
-        if(playProj2.projectileLife > 1.5) {
-            //Reset variable to null and clear element if it exceeds life limit
+        let collided = terminateProjectile(playProj2,obstacleObjects,groundProfiles,enemyObs);
+        //Remove enemy if appropriate: clear html and set array position to null
+        if(collided.removeEnemy) {
+            if(collided.enemyIndex === 0) {
+                enemy0.innerHTML = "";
+                enemyObs[0] = null;
+            } else if(collided.enemyIndex === 1) {
+                enemy1.innerHTML = "";
+                enemyObs[1] = null;
+            } else if(collided.enemyIndex === 2) {
+                enemy2.innerHTML = "";
+                enemyObs[2] = null;
+            } else if(collided.enemyIndex === 3) {
+                enemy3.innerHTML = "";
+                enemyObs[3] = null;
+            }
+        }
+        if(collided.removeProjectile) {
             playProj2 = null;
             playerProjectile2.innerHTML = "";
+        } else {
+            playProj2.projectilePosition.x += playProj2.projectileVelocity*0.04;
+            playerProjectile2.setAttribute('transform', `translate(${playProj2.projectilePosition.x}, ${-playProj2.projectilePosition.y})`);
+            if(playProj2.projectileLife > 1.5) {
+                //Reset variable to null and clear element if it exceeds life limit
+                playProj2 = null;
+                playerProjectile2.innerHTML = "";
+            }
         }
         projectilePlaced = false;
     }
 
     if(playProj3 !== null) {
         playProj3.projectileLife += 0.04;
-        playProj3.projectilePosition.x += playProj3.projectileVelocity*0.04;
-        playerProjectile3.setAttribute('transform', `translate(${playProj3.projectilePosition.x + spriteKinematics.x}, ${-playProj3.projectilePosition.y})`);
-        if(playProj3.projectileLife > 1.5) {
-            //Reset variable to null and clear element if it exceeds life limit
+        let collided = terminateProjectile(playProj3,obstacleObjects,groundProfiles,enemyObs);
+        //Remove enemy if appropriate: clear html and set array position to null
+        if(collided.removeEnemy) {
+            if(collided.enemyIndex === 0) {
+                enemy0.innerHTML = "";
+                enemyObs[0] = null;
+            } else if(collided.enemyIndex === 1) {
+                enemy1.innerHTML = "";
+                enemyObs[1] = null;
+            } else if(collided.enemyIndex === 2) {
+                enemy2.innerHTML = "";
+                enemyObs[2] = null;
+            } else if(collided.enemyIndex === 3) {
+                enemy3.innerHTML = "";
+                enemyObs[3] = null;
+            }
+        }
+        if(collided.removeProjectile) {
             playProj3 = null;
             playerProjectile3.innerHTML = "";
+        } else {
+            playProj3.projectilePosition.x += playProj3.projectileVelocity*0.04;
+            playerProjectile3.setAttribute('transform', `translate(${playProj3.projectilePosition.x}, ${-playProj3.projectilePosition.y})`);
+            if(playProj3.projectileLife > 1.5) {
+                //Reset variable to null and clear element if it exceeds life limit
+                playProj3 = null;
+                playerProjectile3.innerHTML = "";
+            }
         }
         projectilePlaced = false;
     }
 
     if(playProj4 !== null) {
         playProj4.projectileLife += 0.04;
-        playProj4.projectilePosition.x += playProj4.projectileVelocity*0.04;
-        playerProjectile4.setAttribute('transform', `translate(${playProj4.projectilePosition.x + spriteKinematics.x}, ${-playProj4.projectilePosition.y})`);
-        if(playProj4.projectileLife > 1.5) {
-            //Reset variable to null and clear element if it exceeds life limit
+        let collided = terminateProjectile(playProj4,obstacleObjects,groundProfiles,enemyObs);
+        //Remove enemy if appropriate: clear html and set array position to null
+        if(collided.removeEnemy) {
+            if(collided.enemyIndex === 0) {
+                enemy0.innerHTML = "";
+                enemyObs[0] = null;
+            } else if(collided.enemyIndex === 1) {
+                enemy1.innerHTML = "";
+                enemyObs[1] = null;
+            } else if(collided.enemyIndex === 2) {
+                enemy2.innerHTML = "";
+                enemyObs[2] = null;
+            } else if(collided.enemyIndex === 3) {
+                enemy3.innerHTML = "";
+                enemyObs[3] = null;
+            }
+        }
+        if(collided.removeProjectile) {
             playProj4 = null;
             playerProjectile4.innerHTML = "";
+        } else {
+            playProj4.projectilePosition.x += playProj4.projectileVelocity*0.04;
+            playerProjectile4.setAttribute('transform', `translate(${playProj4.projectilePosition.x}, ${-playProj4.projectilePosition.y})`);
+            if(playProj4.projectileLife > 1.5) {
+                //Reset variable to null and clear element if it exceeds life limit
+                playProj4 = null;
+                playerProjectile4.innerHTML = "";
+            }
         }
         projectilePlaced = false;
     }
@@ -642,11 +812,11 @@ const gameLoop = setInterval(() => {
     });
 
     if(currentObstacles.length > 0) {
-        console.log(`Encountered obstacle!`);
+        // console.log(`Encountered obstacle!`);
         let obIndex = 0;
         let obstacleVerticalBounds = calculateTopAndBottom(currentObstacles[obIndex],projectedY);
-        console.log(obstacleVerticalBounds);
-        console.log(overLapY(projectedY,obstacleVerticalBounds.bottomY,obstacleVerticalBounds.topY));
+        // console.log(obstacleVerticalBounds);
+        // console.log(overLapY(projectedY,obstacleVerticalBounds.bottomY,obstacleVerticalBounds.topY));
         if(currentObstacles.length > 1) {
             while(obIndex < currentObstacles.length && !overLapY(projectedY,obstacleVerticalBounds.bottomY,obstacleVerticalBounds.topY)) {
                 obIndex++;
@@ -732,7 +902,7 @@ const gameLoop = setInterval(() => {
                 spriteKinematics.vy += spriteKinematics.ay*0.04;
                 onObstacle = false;
             }
-            console.log(`Entry Method: ${entryMethod}`);
+            // console.log(`Entry Method: ${entryMethod}`);
         }
         obstacleIndex = obIndex;
     }
@@ -1058,8 +1228,8 @@ if(spriteKinematics.y < groundY) {
     }
 }
     } else {
-        console.log(`X-Velocity: ${spriteKinematics.vx}`);
-        console.log(`X-Acceleration: ${spriteKinematics.ax}`);
+        // console.log(`X-Velocity: ${spriteKinematics.vx}`);
+        // console.log(`X-Acceleration: ${spriteKinematics.ax}`);
         spriteKinematics.x += spriteKinematics.vx*0.04;
         if(spriteKinematics.x + spriteKinematics.vx*0.04 < currentObstacles[obstacleIndex].leastX || spriteKinematics.x + spriteKinematics.vx*0.04 > currentObstacles[obstacleIndex].greatestX) {
             inAir = true;
